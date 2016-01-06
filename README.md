@@ -1,3 +1,9 @@
+** Forked with the purpose of adding the following functionality:
+
+* Write values of data matrix to heatmap cells
+* Send row/column/value information to Shiny on a click/double click event
+
+
 **If you are using a version of d3heatmap older than 0.4.0, please upgrade now! Previous versions put row and column names in the incorrect order!**
 
 ___
@@ -20,7 +26,7 @@ To install:
 
 ```r
 if (!require("devtools")) install.packages("devtools")
-devtools::install_github("rstudio/d3heatmap")
+devtools::install_github("rameezsadikot/d3heatmap")
 ```
 
 ### Usage
