@@ -1,4 +1,4 @@
-**Forked with the purpose of adding the following functionality:
+**Forked with the purpose of adding the following functionality:**
 
 * Write values of data matrix to heatmap cells (done)
 * Send row/column/value information to Shiny on a click/double click event (in progress)
