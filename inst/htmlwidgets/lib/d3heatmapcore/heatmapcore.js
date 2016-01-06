@@ -325,11 +325,46 @@ function heatmap(selector, data, options) {
     }
 
     draw(rect);
-
+    
+    //write values in cells
+	var cellLabels = svg.selectAll("text").data(merged);
+	cellLabels.enter().append("text").text(function(d, i) { return d.label; });
+    cellLabels.exit().remove();
+	
+	//adjust the fontsize and positioning of cell labels dynamically
+	function drawCellLabels(selection) {
+		
+		var cellHeight = (y(1) - y(0)) - spacing;
+		var cellWidth = (x(1) - x(0)) - spacing;
+		var fontSize;
+	
+		if (cellHeight < cellWidth)
+			fontSize = cellHeight/2;
+		else
+			fontSize = cellWidth/2;
+		
+		if (fontSize > 18)
+			fontSize = 15;
+		
+		selection
+         .attr("x", function(d, i) {
+				return x(i % cols) + cellWidth/2 - fontSize;
+		 })
+		.attr("y", function(d, i) {
+            return y(Math.floor(i / cols)) + cellHeight/1.5;
+         })
+		.attr("font-size",fontSize + "px");
+    }
+	
+	//initial draw of cell labels
+	drawCellLabels(cellLabels);
+	
+    //redraw of cells and cell labels on zoom
     controller.on('transform.colormap', function(_) {
       x.range([_.translate[0], width * _.scale[0] + _.translate[0]]);
       y.range([_.translate[1], height * _.scale[1] + _.translate[1]]);
       draw(rect.transition().duration(opts.anim_duration).ease("linear"));
+	  drawCellLabels(cellLabels);
     });
     
 
