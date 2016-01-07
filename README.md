@@ -1,4 +1,4 @@
-**Forked with the purpose of adding the following functionality:
+**Forked with the purpose of adding the following functionality:**
 
 * Write the matrix values to each cell in the heatmap
 * Send _click events to Shiny server whenever a cell is clicked - exactly the same as _hover which is already implemented.  
