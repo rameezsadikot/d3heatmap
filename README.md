@@ -1,4 +1,7 @@
-**Forked with the purpose of adding functionality to write values of data matrix to heatmap cells**
+**Forked with the purpose of adding the following functionality:**
+
+* Write matrix values to cells of heatmap
+* Add Shiny click event in addition to the existing hover event
 
 **If you are using a version of d3heatmap older than 0.4.0, please upgrade now! Previous versions put row and column names in the incorrect order!**
 
