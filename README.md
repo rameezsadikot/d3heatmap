@@ -3,6 +3,7 @@
 * Write the matrix values to each cell in the heatmap
 * Send _click events to Shiny server whenever a cell is clicked - exactly the same as _hover which is already implemented.  
 
+**Note I am yet to isolate brush from click events - I will do that when I have more time**
 
 
 
