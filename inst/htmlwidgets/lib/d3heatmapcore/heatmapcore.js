@@ -88,9 +88,10 @@ function heatmap(selector, data, options) {
   var bbox = el.node().getBoundingClientRect();
 
   var Controller = function() {
-    this._events = d3.dispatch("highlight", "datapoint_hover", "transform");
+    this._events = d3.dispatch("highlight", "datapoint_hover", "transform","datapoint_click");
     this._highlight = {x: null, y: null};
     this._datapoint_hover = {x: null, y: null, value: null};
+    this._datapoint_click = {x: null, y: null, value: null};
     this._transform = null;
   };
   (function() {
@@ -111,6 +112,13 @@ function heatmap(selector, data, options) {
       
       this._datapoint_hover = _;
       this._events.datapoint_hover.call(this, _);
+    };
+    
+    this.datapoint_click = function(_) {
+      if (!arguments.length) return this._datapoint_click;
+      
+      this._datapoint_click = _;
+      this._events.datapoint_click.call(this, _);
     };
 
     this.transform = function(_) {
@@ -401,6 +409,24 @@ function heatmap(selector, data, options) {
         .on("mouseleave", function() {
           tip.hide().style("display", "none");
           controller.datapoint_hover(null);
+        })
+        .on("click", function() {
+          var e = d3.event;
+          var offsetX = d3.event.offsetX;
+          var offsetY = d3.event.offsetY;
+          if (typeof(offsetX) === "undefined") {
+            // Firefox 38 and earlier
+            var target = e.target || e.srcElement;
+            var rect = target.getBoundingClientRect();
+            offsetX = e.clientX - rect.left,
+            offsetY = e.clientY - rect.top;
+          }
+          
+          var col = Math.floor(x.invert(offsetX));
+          var row = Math.floor(y.invert(offsetY));
+          var label = merged[row*cols + col].label;
+          
+          controller.datapoint_click({col:col, row:row, label:label});
         });
 
     controller.on('highlight.datapt', function(hl) {
@@ -656,6 +682,10 @@ function heatmap(selector, data, options) {
   
   controller.on("datapoint_hover", function(_) {
     dispatcher.hover({data: _});
+  });
+  
+  controller.on("datapoint_click", function(_) {
+    dispatcher.click({data: _});
   });
   
   function on_col_label_mouseenter(e) {
