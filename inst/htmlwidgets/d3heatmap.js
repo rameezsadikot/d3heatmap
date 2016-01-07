@@ -65,15 +65,15 @@ HTMLWidgets.widget({
             col: x.matrix.cols[e.data.col]
           });
         });
-        /* heatmap doesn't currently send click, since it means zoom-out
+        
         hm.on('click', function(e) {
           Shiny.onInputChange(id + '_click', !e.data ? e.data : {
             label: e.data.label,
-            row: e.data.row + 1,
-            col: e.data.col + 1
+            row: x.matrix.rows[e.data.row],
+            col: x.matrix.cols[e.data.col]
           });
         });
-        */
+        
   	  }
     });
   },
